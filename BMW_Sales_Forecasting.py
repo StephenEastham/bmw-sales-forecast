@@ -19,7 +19,7 @@ print("Notebook sys.executable:", sys.executable)
 print("Notebook sys.version:", sys.version.splitlines()[0])
 
 # %% [markdown]
-# # BM Sales Trend Forecasting & Alert System
+# # BMW Sales Trend Forecasting & Alert System
 #
 # ## Project Overview
 # This notebook analyzes historical BMW sales data (2010-2024) and implements:
