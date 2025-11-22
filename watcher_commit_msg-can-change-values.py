@@ -8,7 +8,7 @@ from flask import Flask, request, jsonify, send_from_directory
 
 # --- Configuration ---
 # IMPORTANT: Set this to the repository you are working with in GitHub Desktop
-REPO_ROOT = '"C:\Users\easts\github\bmw-sales-forecast"'
+REPO_ROOT = r'C:\Users\easts\github\bmw-sales-forecast'
 # How many recent commit messages to load (will fetch more and filter by author)
 COMMIT_LIMIT = 1000
 # List of author names to filter by (show only commits from these authors)
