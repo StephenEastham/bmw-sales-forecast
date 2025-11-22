@@ -87,7 +87,11 @@ else:
 # Import Required Libraries
 import pandas as pd
 import numpy as np
+import matplotlib
+# Use a non-GUI backend for scripts so `plt.show()` does not open blocking windows
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+matplotlib.use('Agg')
 import seaborn as sns
 from datetime import datetime, timedelta
 import warnings
