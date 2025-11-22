@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recent commit messages</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f8f9fa; height: 100vh; display: flex; flex-direction: column; }
+        h1 { color: #212529; margin: 15px 20px; }
+        .container { display: flex; flex: 1; gap: 20px; padding: 0 20px 20px 20px; min-height: 0; }
+        .left-column { flex: 1; min-width: 300px; display: flex; flex-direction: column; min-height: 0; }
+        .right-column { flex: 1; min-width: 300px; display: flex; flex-direction: column; }
+        #commit-list { list-style-type: none; padding: 0; margin: 0; flex: 1; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 5px; background-color: #fff; }
+        .commit-item { background-color: #fff; border-bottom: 1px solid #dee2e6; padding: 12px; cursor: pointer; transition: background-color 0.2s; }
+        .commit-item:last-child { border-bottom: none; }
+        .commit-item:hover { background-color: #e9ecef; }
+        .commit-meta { font-size: 0.8em; color: #6c757d; margin-bottom: 5px; }
+        .commit-message { font-size: 0.9em; white-space: pre-wrap; word-wrap: break-word; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+        #editor { display: flex; flex-direction: column; height: 100%; }
+        #editor h2 { margin: 0 0 10px 0; }
+        textarea { flex: 1; padding: 10px; border: 1px solid #ced4da; border-radius: 5px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; font-size: 0.9em; resize: none; }
+        button { background-color: #007bff; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-size: 1em; margin-top: 10px; }
+        button:hover { background-color: #0056b3; }
+        #status { margin-top: 10px; color: #28a745; font-weight: bold; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h3 id="page-title">Recent commit messages</h3>
+    <div class="container">
+        <div class="left-column">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <p style="margin: 0; color: #6c757d;" id="column-header">Your recent, unique commit messages</p>
+                <select id="time-period-selector" style="padding: 5px;">
+                    <option value="7">Last 7 Days</option>
+                    <option value="14">Last 14 Days</option>
+                    <option value="30" selected>Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
+                    <option value="180">Last 180 Days</option>
+                </select>
+            </div>
+            <ul id="commit-list"></ul>
+        </div>
+
+        <div class="right-column">
+            <div id="editor">
+                <h2>Edit Message</h2>
+                <textarea id="message-editor" placeholder="Click 1 or more recent messages to edit..."></textarea>
+                <button id="copy-button">Copy to clipboard</button>
+                <div id="status"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const commitList = document.getElementById('commit-list');
+            const messageEditor = document.getElementById('message-editor');
+            const copyButton = document.getElementById('copy-button');
+            const statusDiv = document.getElementById('status');
+            const timePeriodSelector = document.getElementById('time-period-selector');
+
+            // Fetch and display commit messages
+            async function loadCommits() {
+                const days = timePeriodSelector.value;
+                try {
+                    const response = await fetch(`/commits?days=${days}`);
+                    const data = await response.json();
+                    commitList.innerHTML = ''; // Clear existing list
+                    
+                    // Update page title with branch name
+                    const pageTitle = document.getElementById('page-title');
+                    if (data.current_branch) {
+                        pageTitle.textContent = `Recent commit messages: ${data.current_branch}`;
+                    }
+                    
+                    // Update header with author info
+                    const headerEl = document.getElementById('column-header');
+                    if (data.commits.length > 0) {
+                        const authors = [...new Set(data.commits.map(c => c.author))].join(', ');
+                        const firstDate = new Date(data.commits[data.commits.length - 1].date);
+                        const lastDate = new Date(data.commits[0].date);
+                        const timeRange = `${firstDate.toLocaleDateString()} - ${lastDate.toLocaleDateString()}`;
+                        headerEl.textContent = `${authors} • ${timeRange}`;
+                    } else {
+                        headerEl.textContent = `No commits found in the last ${days} days.`;
+                    }
+                    
+                    data.commits.forEach(commit => {
+                        const li = document.createElement('li');
+                        li.className = 'commit-item';
+                        li.innerHTML = `
+                            <div class="commit-meta">${commit.hash} · ${commit.author} · ${new Date(commit.date).toLocaleString()}</div>
+                            <div class="commit-message">${escapeHtml(commit.message)}</div>
+                        `;
+                        li.addEventListener('click', () => {
+                            if (messageEditor.value) {
+                                messageEditor.value += ' '  + commit.message;
+                            } else {
+                                messageEditor.value = commit.message;
+                            }
+                            statusDiv.textContent = '';
+                        });
+                        commitList.appendChild(li);
+                    });
+                } catch (error) {
+                    console.error('Error fetching commits:', error);
+                    commitList.innerHTML = '<li>Error loading commits. Is the server running?</li>';
+                }
+            }
+
+            // Re-load commits when the dropdown changes
+            timePeriodSelector.addEventListener('change', loadCommits);
+
+            // Copy text to clipboard
+            copyButton.addEventListener('click', () => {
+                if (!messageEditor.value) {
+                    statusDiv.textContent = 'Editor is empty.';
+                    statusDiv.style.color = '#dc3545';
+                    return;
+                }
+                navigator.clipboard.writeText(messageEditor.value).then(() => {
+                    statusDiv.textContent = 'Copied to clipboard!';
+                    statusDiv.style.color = '#28a745';
+                    setTimeout(() => statusDiv.textContent = '', 3000);
+                }).catch(err => {
+                    console.error('Error copying text:', err);
+                    statusDiv.textContent = 'Failed to copy.';
+                    statusDiv.style.color = '#dc3545';
+                });
+            });
+
+            function escapeHtml(unsafe) {
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+
+            loadCommits();
+        });
+    </script>
+</body>
+</html>
