@@ -1183,3 +1183,86 @@ print("\n[OK] Saved: ANALYSIS_SUMMARY.txt")
 print("\n" + "="*80)
 print("SUCCESS: All tasks completed successfully!")
 print("="*80)
+
+# %%
+import os
+import glob
+from pathlib import Path
+import webbrowser
+from IPython.display import IFrame, HTML, display
+
+# Aggregator: create a single HTML page that displays all generated PNGs and HTML files
+out_html = '07_all_outputs.html'
+# collect PNGs and HTMLs (exclude the aggregator itself and noisy files)
+pngs = sorted(glob.glob('*.png'))
+exclude_names = {out_html, 'commit_messages-can-change-values.html'}
+htmls = sorted(f for f in glob.glob('*.html') if os.path.basename(f) not in exclude_names)
+
+if not pngs and not htmls:
+    print('No output PNG or HTML files found in the current directory.')
+else:
+    parts = []
+    parts.append('<!doctype html>')
+    parts.append('<html lang="en">')
+    parts.append('<head>')
+    parts.append('<meta charset="utf-8"/>')
+    parts.append('<meta name="viewport" content="width=device-width, initial-scale=1"/>')
+    parts.append('<title>All Outputs - BMW Sales Forecast</title>')
+    parts.append('<style>body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:20px} h2{margin-top:1.2rem} figure{margin:12px 0} img{max-width:100%;height:auto;border:1px solid #ddd;padding:4px;background:#fff} .filelink{margin-bottom:8px;display:inline-block}</style>')
+    parts.append('</head>')
+    parts.append('<body>')
+    parts.append('<h1>BMW Sales Forecast — Generated Outputs</h1>')
+    parts.append(f'<p>Repository path: {Path().resolve()}</p>')
+
+    if pngs:
+        parts.append('<h2>PNG Visualizations</h2>')
+        for p in pngs:
+            safe = os.path.basename(p)
+            parts.append(f'<figure><figcaption>{safe}</figcaption><img src="{safe}" alt="{safe}"/></figure>')
+
+    if htmls:
+        parts.append('<h2>Interactive HTML Outputs</h2>')
+        for h in htmls:
+            safe = os.path.basename(h)
+            parts.append(f'<div class="filelink"><a href="{safe}" target="_blank">Open {safe} in new tab</a></div>')
+            parts.append(f'<div style="margin:12px 0; border:1px solid #ccc;"><iframe src="{safe}" style="width:100%;height:640px;border:0"></iframe></div>')
+
+    parts.append('</body>')
+    parts.append('</html>')
+
+    html_content = '\n'.join(parts)
+    with open(out_html, 'w', encoding='utf-8') as f:
+        f.write(html_content)
+
+    abs_path = Path(out_html).resolve()
+    print(f'✅ Created aggregator: {abs_path}')
+
+    # Try to open in the system browser (works for local Jupyter / Codespaces).
+    try:
+        url = abs_path.as_uri()
+        print(f'Opening {url} in your default browser...')
+        webbrowser.open(url)
+    except Exception as e:
+        print('Could not open browser automatically:', e)
+
+    # Also display the aggregator inline (for notebook viewers)
+    try:
+        display(HTML(f"<p><a href='{abs_path.name}' target='_blank'>Open aggregator in new tab</a></p>"))
+        display(IFrame(src=abs_path.as_uri(), width='100%', height=800))
+    except Exception:
+        # Fallback: just show a link
+        print(f'View the file in your notebook file browser: {abs_path.name}')
+
+    # Special-case for Google Colab: attempt a JS open (may be blocked by popup blockers)
+    try:
+        import sys
+        if 'google.colab' in sys.modules:
+            from google.colab import output
+            try:
+                print('Attempting to open in a new tab in Colab...')
+                output.eval_js("window.open('" + abs_path.as_uri() + "')")
+            except Exception:
+                print('Colab: could not open a new tab programmatically; use the link above to open the file.')
+    except Exception:
+        pass
+
