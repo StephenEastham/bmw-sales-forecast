@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW Sales Forecast - Complete Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        .nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .nav a {
+            display: inline-block;
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .nav a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        main {
+            padding: 40px 30px;
+        }
+        section {
+            margin-bottom: 50px;
+        }
+        section h2 {
+            font-size: 1.8em;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .image-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        .image-card img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            display: block;
+        }
+        .image-card .caption {
+            padding: 15px;
+            text-align: center;
+            font-weight: 500;
+            color: #555;
+            background: white;
+        }
+        .iframe-wrapper {
+            background: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+        .iframe-wrapper iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            display: block;
+        }
+        footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.95em;
+        }
+        .timestamp {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BMW Sales Forecast Analysis</h1>
+            <p>Complete Analytics Report & Visualizations</p>
+        </header>
+        
+        <nav class="nav">
+            <a href="#overview">Overview</a>
+            <a href="#dashboards">Interactive Dashboards</a>
+        </nav>
+        
+        <main>
+            <!-- PNG Images Section -->
+            <section id="overview">
+                <h2>Static Visualizations</h2>
+                <div class="gallery">
+
+                    <div class="image-card">
+                        <img src="01_sales_overview.png" alt="01 Sales Overview">
+                        <div class="caption">01 Sales Overview</div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="02_model_region_heatmap.png" alt="02 Model Region Heatmap">
+                        <div class="caption">02 Model Region Heatmap</div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="03_arima_forecast.png" alt="03 Arima Forecast">
+                        <div class="caption">03 Arima Forecast</div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="04_model_forecasts.png" alt="04 Model Forecasts">
+                        <div class="caption">04 Model Forecasts</div>
+                    </div>
+
+                </div>
+            </section>
+            
+            <!-- HTML Files Section -->
+            <section id="dashboards">
+                <h2>Interactive Dashboards</h2>
+
+                <div>
+                    <h3 style="margin-top: 30px; color: #555; margin-bottom: 10px;">--> 05 Interactive Dashboard</h3>
+                    <div class="iframe-wrapper">
+                        <iframe src="05_interactive_dashboard.html" title="05 Interactive Dashboard"></iframe>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="margin-top: 30px; color: #555; margin-bottom: 10px;">--> 06 Model Heatmap Interactive</h3>
+                    <div class="iframe-wrapper">
+                        <iframe src="06_model_heatmap_interactive.html" title="06 Model Heatmap Interactive"></iframe>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+        
+        <footer>
+            <p>BMW Sales Forecasting & Alert System</p>
+            <p>Generated by: Advanced Analytics Pipeline</p>
+            <span class="timestamp">Report generated on 2025-11-22 21:29:49</span>
+        </footer>
+    </div>
+    
+    <!-- Colab Fallback: Open in New Tab -->
+    <script>
+        // For Google Colab: Try to open in a new tab if iframe loading fails
+        if (typeof google !== 'undefined' && google.colab) {
+            window.open(window.location.href, '_blank');
+        }
+    </script>
+</body>
+</html>
