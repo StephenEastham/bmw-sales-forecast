@@ -13,6 +13,11 @@
 #     name: python3
 # ---
 
+# %%
+import sys
+print("Notebook sys.executable:", sys.executable)
+print("Notebook sys.version:", sys.version.splitlines()[0])
+
 # %% [markdown]
 # # BMW Sales Trend Forecasting & Alert System
 #
