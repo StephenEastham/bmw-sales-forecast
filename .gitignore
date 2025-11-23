@@ -20,7 +20,6 @@ Thumbs.db
 commit_messages-can-change-values.html
 
 # Keep the data CSV untracked in the repository root
-BMW-sales-data-2010-2024.csv
 forecast_next_3_years.csv
 model_forecasts_export.csv
 sales_report_20251122_111209.txt
