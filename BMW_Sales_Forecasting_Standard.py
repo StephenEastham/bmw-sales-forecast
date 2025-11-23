@@ -24,7 +24,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
-from datetime import datetime, timedelta
+from datetime import datetime
 import warnings
 import logging
 import glob
@@ -38,7 +38,6 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 # Plotting libraries
 import plotly.graph_objects as go
-import plotly.express as px
 from plotly.subplots import make_subplots
 
 # Configuration
@@ -48,6 +47,14 @@ plt.style.use('seaborn-v0_8-darkgrid')
 sns.set_palette("husl")
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 100)
+
+# Output directory for generated artifacts
+OUTPUT_DIR = Path('outputs')
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+def out_path(name: str) -> str:
+    """Return a path inside the outputs directory as a string."""
+    return str(OUTPUT_DIR / name)
 
 
 def print_system_info():
@@ -217,8 +224,9 @@ def create_overview_visualizations(df_yearly, df_clean):
     ax4.set_title('Sales Distribution by Region', fontsize=12, fontweight='bold')
     
     plt.tight_layout()
-    plt.savefig('01_sales_overview.png', dpi=300, bbox_inches='tight')
-    print("✅ Saved: 01_sales_overview.png")
+    p = out_path('01_sales_overview.png')
+    plt.savefig(p, dpi=300, bbox_inches='tight')
+    print(f"✅ Saved: {p}")
     plt.close()
 
 
@@ -240,8 +248,9 @@ def create_heatmap(df_clean):
     plt.xlabel('Region', fontsize=12, fontweight='bold')
     plt.ylabel('Model', fontsize=12, fontweight='bold')
     plt.tight_layout()
-    plt.savefig('02_model_region_heatmap.png', dpi=300, bbox_inches='tight')
-    print("✅ Saved: 02_model_region_heatmap.png")
+    p = out_path('02_model_region_heatmap.png')
+    plt.savefig(p, dpi=300, bbox_inches='tight')
+    print(f"✅ Saved: {p}")
     plt.close()
 
 
@@ -362,8 +371,9 @@ def visualize_forecast(ts_data, ts_years, train_size, forecast_test_values, fore
     ax.legend(fontsize=10)
     ax.grid(True, alpha=0.3)
     plt.tight_layout()
-    plt.savefig('03_arima_forecast.png', dpi=300, bbox_inches='tight')
-    print("✅ Saved: 03_arima_forecast.png")
+    p = out_path('03_arima_forecast.png')
+    plt.savefig(p, dpi=300, bbox_inches='tight')
+    print(f"✅ Saved: {p}")
     plt.close()
 
 
@@ -416,8 +426,9 @@ def forecast_model_specific(df_model_yearly, top_models, model_thresholds):
     fig.delaxes(axes[-1])
     
     plt.tight_layout()
-    plt.savefig('04_model_forecasts.png', dpi=300, bbox_inches='tight')
-    print("\n✅ Saved: 04_model_forecasts.png")
+    p = out_path('04_model_forecasts.png')
+    plt.savefig(p, dpi=300, bbox_inches='tight')
+    print("\n✅ Saved: {0}".format(p))
     plt.close()
     
     print(f"\n✅ Model forecasting complete")
@@ -441,7 +452,7 @@ class SalesAlertSystem:
             level=logging.INFO,
             format='%(asctime)s - %(levelname)s - %(message)s',
             handlers=[
-                logging.FileHandler('sales_alerts.log'),
+                logging.FileHandler(out_path('sales_alerts.log')),
                 logging.StreamHandler()
             ],
             force=True
@@ -703,8 +714,9 @@ def create_interactive_dashboard(ts_years, ts_data, future_years, future_values,
         width=1400
     )
     
-    fig_forecast.write_html('05_interactive_dashboard.html')
-    print("\n✅ Saved: 05_interactive_dashboard.html")
+    p = out_path('05_interactive_dashboard.html')
+    fig_forecast.write_html(p)
+    print(f"\n✅ Saved: {p}")
 
 
 def create_heatmap_interactive(df_model_yearly):
@@ -734,8 +746,9 @@ def create_heatmap_interactive(df_model_yearly):
         width=1200
     )
     
-    fig_heatmap.write_html('06_model_heatmap_interactive.html')
-    print("✅ Saved: 06_model_heatmap_interactive.html")
+    p = out_path('06_model_heatmap_interactive.html')
+    fig_heatmap.write_html(p)
+    print(f"✅ Saved: {p}")
 
 
 def export_data(future_years, future_values, ALERT_THRESHOLD_OVERALL, alert_system, 
@@ -755,13 +768,13 @@ def export_data(future_years, future_values, ALERT_THRESHOLD_OVERALL, alert_syst
     print("\n📊 Forecast Export:")
     print(forecast_export)
     
-    forecast_export.to_csv('forecast_next_3_years.csv', index=False)
-    print("\n✅ Saved: forecast_next_3_years.csv")
+    forecast_export.to_csv(out_path('forecast_next_3_years.csv'), index=False)
+    print("\n✅ Saved: {0}".format(out_path('forecast_next_3_years.csv')))
     
     if alert_system.alerts:
         alerts_df = pd.DataFrame(alert_system.alerts)
-        alerts_df.to_csv('active_alerts.csv', index=False)
-        print("✅ Saved: active_alerts.csv")
+        alerts_df.to_csv(out_path('active_alerts.csv'), index=False)
+        print(f"✅ Saved: {out_path('active_alerts.csv')}")
     
     model_forecast_df = []
     for model, data in model_forecasts.items():
@@ -775,8 +788,8 @@ def export_data(future_years, future_values, ALERT_THRESHOLD_OVERALL, alert_syst
     
     if model_forecast_df:
         model_forecast_export = pd.DataFrame(model_forecast_df)
-        model_forecast_export.to_csv('model_forecasts_export.csv', index=False)
-        print("✅ Saved: model_forecasts_export.csv")
+        model_forecast_export.to_csv(out_path('model_forecasts_export.csv'), index=False)
+        print(f"✅ Saved: {out_path('model_forecasts_export.csv')}")
     
     print("\n✅ Data export complete")
 
@@ -784,9 +797,10 @@ def export_data(future_years, future_values, ALERT_THRESHOLD_OVERALL, alert_syst
 def create_aggregator_html():
     """Create aggregator HTML page for all outputs"""
     out_html = '07_all_outputs.html'
-    pngs = sorted(glob.glob('*.png'))
+    # Look for generated PNGs/HTMLs inside the outputs directory
+    pngs = sorted([str(p) for p in OUTPUT_DIR.glob('*.png')])
     exclude_names = {out_html, 'commit_messages-can-change-values.html'}
-    htmls = sorted(f for f in glob.glob('*.html') if os.path.basename(f) not in exclude_names)
+    htmls = sorted([str(p) for p in OUTPUT_DIR.glob('*.html') if os.path.basename(p) not in exclude_names])
     
     if not pngs and not htmls:
         print('No output PNG or HTML files found in the current directory.')
@@ -821,12 +835,13 @@ def create_aggregator_html():
         parts.append('</html>')
         
         html_content = '\n'.join(parts)
-        with open(out_html, 'w', encoding='utf-8') as f:
+        out_path_full = OUTPUT_DIR / out_html
+        with open(out_path_full, 'w', encoding='utf-8') as f:
             f.write(html_content)
-        
-        abs_path = Path(out_html).resolve()
+
+        abs_path = out_path_full.resolve()
         print(f'✅ Created aggregator: {abs_path}')
-        
+
         # Automatically open in browser
         try:
             url = abs_path.as_uri()
@@ -910,10 +925,10 @@ PROJECT STATUS: COMPLETE & READY FOR PRODUCTION
     
     print(summary)
     
-    with open('ANALYSIS_SUMMARY.txt', 'w', encoding='utf-8') as f:
+    with open(out_path('ANALYSIS_SUMMARY.txt'), 'w', encoding='utf-8') as f:
         f.write(summary)
-    
-    print("\n[OK] Saved: ANALYSIS_SUMMARY.txt")
+
+    print(f"\n[OK] Saved: {out_path('ANALYSIS_SUMMARY.txt')}")
 
 
 def main():
@@ -1146,10 +1161,10 @@ def main():
                                             future_years, ALERT_THRESHOLD_OVERALL)
     print(monthly_report)
     
-    report_filename = f"sales_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+    report_filename = out_path(f"sales_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt")
     with open(report_filename, 'w', encoding='utf-8') as f:
         f.write(monthly_report)
-    
+
     print(f"\n✅ Saved: {report_filename}")
     
     # Create Interactive Dashboards
