@@ -1,5 +1,5 @@
 """
-BMW Sales Trend Forecasting & Alert System - Main Entry Point
+BM Sales Trend Forecasting & Alert System - Main Entry Point
 
 This script orchestrates the complete analysis pipeline:
 - Data loading and preprocessing
