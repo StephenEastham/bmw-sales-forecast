@@ -29,9 +29,6 @@ from alerts import setup_alert_system
 from reporting import generate_monthly_report, export_data, generate_final_summary
 from aggregator import create_aggregator_html
 from datetime import datetime
-from console_output import clean_console_output, save_console_output
-from io import StringIO
-import contextlib
 
 
 def run_alert_checks(alert_system, future_values, model_forecasts, df_region_yearly,
@@ -226,24 +223,6 @@ def main():
     print("SUCCESS: All tasks completed successfully!")
     print("="*80)
 
-    
-
 
 if __name__ == "__main__":
-    # Capture stdout/stderr for the whole run so we can persist a cleaned transcript
-    buf = StringIO()
-    with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(buf):
-        try:
-            main()
-        except Exception as exc:  # ensure we still save transcript on error
-            print("\nERROR during run:", exc)
-            raise
-        finally:
-            captured = buf.getvalue()
-            try:
-                save_console_output(captured)
-                # Also print confirmation to the real stdout
-                # use sys.__stdout__ which is not redirected
-                sys.__stdout__.write(f"\n✅ Saved cleaned console transcript: outputs/CONSOLE_OUTPUT.txt\n")
-            except Exception as e:
-                sys.__stdout__.write(f"\n⚠️ Failed to save console transcript: {e}\n")
+    main()
