@@ -17,7 +17,6 @@ env/
 Thumbs.db
 
 # Keep this HTML untracked in the repository root
-commit_messages-can-change-values.html
 
 # Keep the data CSV untracked in the repository root
 forecast_next_3_years.csv
