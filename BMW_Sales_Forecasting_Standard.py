@@ -842,12 +842,37 @@ def create_aggregator_html():
         abs_path = out_path_full.resolve()
         print(f'✅ Created aggregator: {abs_path}')
 
-        # Automatically open in browser
+        # Automatically open the aggregator and the two interactive dashboards
         try:
             url = abs_path.as_uri()
             print(f'\n🌐 Opening {out_html} in your default browser...')
             webbrowser.open(url)
-            print(f'✅ Browser opened successfully!')
+            print(f'✅ Opened aggregator: {abs_path}')
+
+            # Open the interactive dashboards in separate tabs if they exist
+            dash05 = (OUTPUT_DIR / '05_interactive_dashboard.html').resolve()
+            dash06 = (OUTPUT_DIR / '06_model_heatmap_interactive.html').resolve()
+
+            try:
+                if dash05.exists():
+                    print(f'🌐 Opening dashboard: {dash05.name} in a new tab...')
+                    webbrowser.open_new_tab(dash05.as_uri())
+                else:
+                    print(f'   • {dash05} not found; skipping open for 05')
+            except Exception as e2:
+                print(f'⚠️ Could not open {dash05}: {e2}')
+
+            try:
+                if dash06.exists():
+                    print(f'🌐 Opening dashboard: {dash06.name} in a new tab...')
+                    webbrowser.open_new_tab(dash06.as_uri())
+                else:
+                    print(f'   • {dash06} not found; skipping open for 06')
+            except Exception as e3:
+                print(f'⚠️ Could not open {dash06}: {e3}')
+
+            print('✅ Browser open actions complete.')
+
         except Exception as e:
             print(f'⚠️ Could not open browser automatically: {e}')
             print(f'   You can manually open: {abs_path}')
