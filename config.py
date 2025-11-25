@@ -9,8 +9,11 @@ import seaborn as sns
 import pandas as pd
 import warnings
 
-# Output directory for generated artifacts
-OUTPUT_DIR = Path('outputs')
+# Project root and output directory (make paths robust to working directory)
+PROJECT_ROOT = Path(__file__).resolve().parent
+
+# Output directory for generated artifacts (inside the project root)
+OUTPUT_DIR = PROJECT_ROOT / 'outputs'
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
