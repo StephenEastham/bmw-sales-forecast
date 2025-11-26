@@ -5,30 +5,30 @@ A production-ready, maintainable Python implementation of the BMW Sales Trend Fo
 ## Project Structure
 
 ```
-├── main.py                      # Entry point - orchestrates the analysis pipeline
-├── config.py                    # Global configuration, constants, and output directory setup
-├── utils.py                     # Utility functions (logging, path helpers, formatters)
-├── data.py                      # Data loading, downloading, and preprocessing
-├── analysis.py                  # Exploratory Data Analysis (EDA) and time series aggregation
-├── forecasting.py               # Time series forecasting (ARIMA with ExponentialSmoothing fallback)
-├── visualization.py             # Static (matplotlib) and interactive (plotly) visualizations
-├── alerts.py                    # Alert system class and alert checking logic
-├── reporting.py                 # Report generation, CSV export, and summary creation
-├── aggregator.py                # HTML aggregator page and browser automation
-├── BMW_Sales_Forecasting_Standard-one-file.py  # Original monolithic reference script
-└── outputs/                     # Generated artifacts (PNGs, HTMLs, CSVs, logs, reports) - ignored by git
-    ├── 01_sales_overview.png
-    ├── 02_model_region_heatmap.png
-    ├── 03_arima_forecast.png
-    ├── 04_model_forecasts.png
-    ├── 05_interactive_dashboard.html
-    ├── 06_model_heatmap_interactive.html
-    ├── 07_all_outputs.html
-    ├── forecast_next_3_years.csv
-    ├── model_forecasts_export.csv
-    ├── active_alerts.csv
-    ├── sales_alerts.log
-    └── ANALYSIS_SUMMARY.txt
++-- main.py                      # Entry point - orchestrates the analysis pipeline
++-- config.py                    # Global configuration, constants, and output directory setup
++-- utils.py                     # Utility functions (logging, path helpers, formatters)
++-- data.py                      # Data loading, downloading, and preprocessing
++-- analysis.py                  # Exploratory Data Analysis (EDA) and time series aggregation
++-- forecasting.py               # Time series forecasting (ARIMA with ExponentialSmoothing fallback)
++-- visualization.py             # Static (matplotlib) and interactive (plotly) visualizations
++-- alerts.py                    # Alert system class and alert checking logic
++-- reporting.py                 # Report generation, CSV export, and summary creation
++-- aggregator.py                # HTML aggregator page and browser automation
++-- BMW_Sales_Forecasting_Standard-one-file.py  # Original monolithic reference script
++-- outputs/                     # Generated artifacts (PNGs, HTMLs, CSVs, logs, reports) - ignored by git
+    +-- 01_sales_overview.png
+    +-- 02_model_region_heatmap.png
+    +-- 03_arima_forecast.png
+    +-- 04_model_forecasts.png
+    +-- 05_interactive_dashboard.html
+    +-- 06_model_heatmap_interactive.html
+    +-- 07_all_outputs.html
+    +-- forecast_next_3_years.csv
+    +-- model_forecasts_export.csv
+    +-- active_alerts.csv
+    +-- sales_alerts.log
+    +-- ANALYSIS_SUMMARY.txt
 ```
 
 ## Module Descriptions
@@ -224,13 +224,13 @@ python main.py
 
 ## Key Features
 
-- ✅ **Modular Design:** Each module has a single responsibility and can be tested/extended independently
-- ✅ **Configurable:** Centralized config for easy parameter adjustments
-- ✅ **Error Handling:** ARIMA fallback to ExponentialSmoothing, graceful error messages
-- ✅ **Logging:** File and console output for auditability
-- ✅ **Automated Outputs:** Browser auto-opens with aggregated results
-- ✅ **Test Mode:** Inject bad data to validate alert system
-- ✅ **Comprehensive Reports:** CSV exports, monthly summaries, project completion reports
+- **Modular Design:** Each module has a single responsibility and can be tested/extended independently
+- **Configurable:** Centralized config for easy parameter adjustments
+- **Error Handling:** ARIMA fallback to ExponentialSmoothing, graceful error messages
+- **Logging:** File and console output for auditability
+- **Automated Outputs:** Browser auto-opens with aggregated results
+- **Test Mode:** Inject bad data to validate alert system
+- **Comprehensive Reports:** CSV exports, monthly summaries, project completion reports
 
 ---
 
