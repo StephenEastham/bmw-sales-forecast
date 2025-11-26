@@ -28,6 +28,15 @@ If you do not have admin privileges, install to your user site-packages:
 "C:/Program Files/Python312/python.exe" -m pip install --user -r requirements.txt
 ```
 
+
+or 
+
+```
+
+python -m pip install numpy==1.26.4 pandas==2.2.2 matplotlib==3.8.1 seaborn==0.13.2 plotly==5.15.0 statsmodels==0.18.1 scikit-learn==1.3.2 requests==2.31.0
+
+```
+
 4) Run the project (example):
 
 ```powershell
