@@ -2,6 +2,7 @@
 BM Sales Trend Forecasting & Alert System - Main Entry Point
 
 This script orchestrates the complete analysis pipeline:
+- Delete existing items in outputs directory
 - Data loading and preprocessing
 - Exploratory data analysis
 - Time series forecasting
