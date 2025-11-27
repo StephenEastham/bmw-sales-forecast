@@ -45,3 +45,15 @@ README_MODULAR.docx
 project documents/SETUP.pdf
 repomix-output.xml
 v251127/outputs/all_outputs.zip
+svg_output/reporting_flow.svg
+svg_output/main_detailed.svg
+svg_output/forecast_algo.svg
+svg_output/data_schema.svg
+svg_output/alert_state_machine.svg
+project documents/bmw_system_diagrams/alert_state_machine.md
+project documents/bmw_system_diagrams/data_schema.md
+project documents/bmw_system_diagrams/forecast_algo.md
+project documents/bmw_system_diagrams/main_detailed.md
+project documents/bmw_system_diagrams/render_diagrams.py
+project documents/bmw_system_diagrams/reporting_flow.md
+tools/diagram_package_generator.py
