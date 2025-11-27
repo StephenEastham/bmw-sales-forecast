@@ -22,7 +22,7 @@ from config import (
     ENABLE_REPORTING, ENABLE_DASHBOARDS, ENABLE_EXPORTS, ENABLE_AGGREGATOR,
     ENABLE_EXPLORATORY_ANALYSIS
 )
-from utils import print_section, clean_outputs
+from utils import print_section, clean_outputs, zip_all_outputs
 from data import download_required_files, load_and_explore_data, preprocess_data
 from analysis import aggregate_time_series
 from exploratory_analysis import exploratory_data_analysis
@@ -179,6 +179,7 @@ def main():
     # ===== AGGREGATOR & BROWSER =====
     if ENABLE_AGGREGATOR:
         create_aggregator_html()
+        zip_all_outputs()
     
     # ===== FINAL SUMMARY =====
     if ENABLE_REPORTING:
