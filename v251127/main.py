@@ -21,7 +21,7 @@ from config import (
     ENABLE_REPORTING, ENABLE_DASHBOARDS, ENABLE_EXPORTS, ENABLE_AGGREGATOR,
     ENABLE_EXPLORATORY_ANALYSIS
 )
-from utils import print_section
+from utils import print_section, clean_outputs
 from data import download_required_files, load_and_explore_data, preprocess_data
 from analysis import aggregate_time_series
 from exploratory_analysis import exploratory_data_analysis
@@ -65,6 +65,9 @@ def main():
     region_thresholds = {}
     unique_regions = []
     
+    # Clean output directory before starting
+    clean_outputs()
+
     # ===== DATA LOADING & PREPROCESSING =====
     if ENABLE_DATA_PROCESSING:
         download_required_files()
