@@ -43,6 +43,28 @@ def main():
     
     print(f"Python: {sys.executable}")
     print(f"Version: {sys.version.splitlines()[0]}")
+
+    # Initialize variables to None/Empty to handle feature flags
+    df = None
+    df_clean = None
+    df_yearly = None
+    ts_data = None
+    ts_years = None
+    df_model_yearly = None
+    df_region_yearly = None
+    train_size = None
+    forecast_test_values = None
+    forecast_test_ci = None
+    future_values = None
+    future_years = None
+    future_ci = None
+    top_models = []
+    model_forecasts = {}
+    alert_system = None
+    ALERT_THRESHOLD_OVERALL = 0
+    model_thresholds = {}
+    region_thresholds = {}
+    unique_regions = []
     
     # ===== DATA LOADING & PREPROCESSING =====
     if ENABLE_DATA_PROCESSING:
@@ -109,9 +131,20 @@ def main():
     
     # ===== REPORTING & VISUALIZATION =====
     if ENABLE_REPORTING:
-        average_sales = df_yearly['Total_Sales'].mean()
+        # Ensure we have necessary data or defaults
+        alerts = alert_system.alerts if alert_system else []
+        average_sales = df_yearly['Total_Sales'].mean() if df_yearly is not None else 0
+        
+        # Create dummy data for reporting if missing
+        if ts_data is None:
+            ts_data = np.array([0, 0])
+        if future_values is None:
+            future_values = np.array([0, 0, 0])
+        if future_years is None:
+            future_years = np.array([datetime.now().year + i for i in range(1, 4)])
+            
         monthly_report = generate_monthly_report(
-            alert_system.alerts, model_forecasts, df_clean, average_sales, 
+            alerts, model_forecasts, df_clean, average_sales, 
             future_values, ts_data, future_years, ALERT_THRESHOLD_OVERALL
         )
         print(monthly_report)
@@ -129,6 +162,13 @@ def main():
     
     # ===== DATA EXPORT =====
     if ENABLE_EXPORTS:
+        if alert_system is None:
+            # Create a dummy object with an alerts attribute
+            class DummyAlertSystem:
+                def __init__(self):
+                    self.alerts = []
+            alert_system = DummyAlertSystem()
+            
         export_data(future_years, future_values, ALERT_THRESHOLD_OVERALL, alert_system, 
                     model_forecasts, model_thresholds, df_clean)
     
@@ -138,6 +178,24 @@ def main():
     
     # ===== FINAL SUMMARY =====
     if ENABLE_REPORTING:
+        average_sales = df_yearly['Total_Sales'].mean() if df_yearly is not None else 0
+        
+        # Create dummy data for summary if missing
+        if ts_data is None:
+            ts_data = np.array([0, 0])
+        if ts_years is None:
+            ts_years = np.array([2020, 2021])
+        if future_values is None:
+            future_values = np.array([0, 0, 0])
+        if future_years is None:
+            future_years = np.array([datetime.now().year + i for i in range(1, 4)])
+        if alert_system is None:
+            # Create a dummy object with an alerts attribute
+            class DummyAlertSystem:
+                def __init__(self):
+                    self.alerts = []
+            alert_system = DummyAlertSystem()
+
         generate_final_summary(df_clean, average_sales, ts_years, ts_data, future_years, 
                             future_values, model_forecasts, alert_system)
     

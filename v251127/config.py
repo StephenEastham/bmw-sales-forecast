@@ -16,7 +16,6 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 OUTPUT_DIR = PROJECT_ROOT / 'outputs'
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-
 def out_path(name: str) -> str:
     """Return a path inside the outputs directory as a string."""
     return str(OUTPUT_DIR / name)
@@ -65,7 +64,7 @@ ENABLE_DATA_PROCESSING = True
 ENABLE_EXPLORATORY_ANALYSIS = True
 # Calls: exploratory_data_analysis
 
-ENABLE_TIME_SERIES = False
+ENABLE_TIME_SERIES = True
 # Calls: aggregate_time_series
 
 ENABLE_STATIC_PLOTS = False
@@ -80,10 +79,10 @@ ENABLE_MODEL_FORECASTS = False
 ENABLE_ALERTS = False
 # Calls: setup_alert_system, run_alert_checks, inject_test_metrics
 
-ENABLE_REPORTING = False
+ENABLE_REPORTING = True
 # Calls: generate_monthly_report, generate_final_summary
 
-ENABLE_DASHBOARDS = False
+ENABLE_DASHBOARDS = True
 # Calls: create_interactive_dashboard, create_heatmap_interactive
 
 ENABLE_EXPORTS = False
