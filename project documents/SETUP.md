@@ -13,7 +13,8 @@ Run PowerShell as an Administrator if you need system-wide installs; otherwise a
 2) Upgrade pip (optional but recommended):
 
 ```powershell
-"C:/Program Files/Python312/python.exe" -m pip install --upgrade pip
+C:/Program Files/Python312/python.exe pip install --upgrade pip
+C:/Users/<user-name>/AppData/Local/Programs/Python/Python313/python.exe pip install --upgrade pip
 ```
 
 3) Install the pinned requirements into system Python:
@@ -35,7 +36,7 @@ or
 
 python -m pip install numpy==1.26.4 pandas==2.2.2
 python -m pip install matplotlib==3.8.1 seaborn==0.13.2
-python -m pip install plotly==5.15.0 statsmodels==0.18.1
+python -m pip install plotly==5.15.0 statsmodels==0.14.5
 python -m pip install scikit-learn==1.3.2 requests==2.31.0
 
 ```
