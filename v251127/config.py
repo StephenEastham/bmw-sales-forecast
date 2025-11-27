@@ -67,16 +67,16 @@ ENABLE_EXPLORATORY_ANALYSIS = True
 ENABLE_TIME_SERIES = True
 # Calls: aggregate_time_series
 
-ENABLE_STATIC_PLOTS = False
+ENABLE_STATIC_PLOTS = True
 # Calls: create_overview_visualizations, create_heatmap
 
-ENABLE_ARIMA_FORECAST = False
+ENABLE_ARIMA_FORECAST = True
 # Calls: forecast_with_arima, visualize_forecast
 
-ENABLE_MODEL_FORECASTS = False
+ENABLE_MODEL_FORECASTS = True
 # Calls: calculate_model_forecasts, plot_model_forecasts
 
-ENABLE_ALERTS = False
+ENABLE_ALERTS = True
 # Calls: setup_alert_system, run_alert_checks, inject_test_metrics
 
 ENABLE_REPORTING = True
@@ -85,8 +85,8 @@ ENABLE_REPORTING = True
 ENABLE_DASHBOARDS = True
 # Calls: create_interactive_dashboard, create_heatmap_interactive
 
-ENABLE_EXPORTS = False
+ENABLE_EXPORTS = True
 # Calls: export_data
 
-ENABLE_AGGREGATOR = False
+ENABLE_AGGREGATOR = True
 # Calls: create_aggregator_html
