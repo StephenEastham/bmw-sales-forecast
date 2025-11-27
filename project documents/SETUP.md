@@ -14,7 +14,9 @@ Run PowerShell as an Administrator if you need system-wide installs; otherwise a
 
 ```powershell
 C:/Program Files/Python312/python.exe pip install --upgrade pip
-C:/Users/<user-name>/AppData/Local/Programs/Python/Python313/python.exe pip install --upgrade pip
+
+C:/Users/<user-name>/AppData/Local/Programs/
+Python/Python312/python.exe pip install --upgrade pip
 ```
 
 3) Install the pinned requirements into system Python:
