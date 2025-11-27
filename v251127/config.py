@@ -60,13 +60,34 @@ TEST_DECLINING_TREND = True
 
 # Feature Flags
 ENABLE_DATA_PROCESSING = True
+# Calls: download_required_files, load_and_explore_data, preprocess_data
+
 ENABLE_EXPLORATORY_ANALYSIS = True
+# Calls: exploratory_data_analysis
+
 ENABLE_TIME_SERIES = False
+# Calls: aggregate_time_series
+
 ENABLE_STATIC_PLOTS = False
+# Calls: create_overview_visualizations, create_heatmap
+
 ENABLE_ARIMA_FORECAST = False
+# Calls: forecast_with_arima, visualize_forecast
+
 ENABLE_MODEL_FORECASTS = False
+# Calls: forecast_model_specific
+
 ENABLE_ALERTS = False
+# Calls: setup_alert_system, run_alert_checks, inject_test_metrics
+
 ENABLE_REPORTING = False
+# Calls: generate_monthly_report, generate_final_summary
+
 ENABLE_DASHBOARDS = False
+# Calls: create_interactive_dashboard, create_heatmap_interactive
+
 ENABLE_EXPORTS = False
+# Calls: export_data
+
 ENABLE_AGGREGATOR = False
+# Calls: create_aggregator_html
