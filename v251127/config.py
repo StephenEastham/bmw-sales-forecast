@@ -74,7 +74,7 @@ ENABLE_ARIMA_FORECAST = False
 # Calls: forecast_with_arima, visualize_forecast
 
 ENABLE_MODEL_FORECASTS = False
-# Calls: forecast_model_specific
+# Calls: calculate_model_forecasts, plot_model_forecasts
 
 ENABLE_ALERTS = False
 # Calls: setup_alert_system, run_alert_checks, inject_test_metrics

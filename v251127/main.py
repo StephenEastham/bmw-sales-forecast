@@ -25,11 +25,10 @@ from utils import print_section
 from data import download_required_files, load_and_explore_data, preprocess_data
 from analysis import aggregate_time_series
 from exploratory_analysis import exploratory_data_analysis
-from visualization import (
-    create_overview_visualizations, create_heatmap, visualize_forecast,
-    forecast_model_specific, create_interactive_dashboard, create_heatmap_interactive
-)
-from forecasting import forecast_with_arima
+from viz_static import create_overview_visualizations, create_heatmap
+from viz_interactive import create_interactive_dashboard, create_heatmap_interactive
+from viz_forecast import visualize_forecast, plot_model_forecasts
+from forecasting import forecast_with_arima, calculate_model_forecasts
 from alerts import setup_alert_system
 from alerts_helpers import run_alert_checks, inject_test_metrics
 from reporting import generate_monthly_report, export_data, generate_final_summary
@@ -94,7 +93,8 @@ def main():
     # ===== MODEL-SPECIFIC FORECASTS =====
     if ENABLE_MODEL_FORECASTS:
         top_models = df_clean.groupby('Model')['Sales_Volume'].sum().nlargest(5).index.tolist()
-        model_forecasts = forecast_model_specific(df_model_yearly, top_models, {})
+        model_forecasts = calculate_model_forecasts(df_model_yearly, top_models)
+        plot_model_forecasts(model_forecasts)
     
     # ===== ALERT SYSTEM SETUP =====
     if ENABLE_ALERTS:

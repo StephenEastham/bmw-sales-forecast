@@ -83,3 +83,40 @@ def forecast_with_arima(ts_data, ts_years):
     print(f"\n✅ Forecasting complete")
     
     return train_size, forecast_test_values, forecast_test_ci, future_values, future_years, future_ci
+
+
+def calculate_model_forecasts(df_model_yearly, top_models):
+    """Calculate forecasts for top 5 models"""
+    print_section("🏎️ MODEL-SPECIFIC FORECASTS (Top 5 Models)")
+    
+    print(f"\n📊 Top 5 Models: {top_models}")
+    
+    model_forecasts = {}
+    
+    for model in top_models:
+        model_data = df_model_yearly[df_model_yearly['Model'] == model].sort_values('Year')
+        
+        if len(model_data) > 2:
+            model_sales = model_data['Sales_Volume'].values
+            model_years = model_data['Year'].values
+            
+            try:
+                model_arima = ARIMA(model_sales, order=(1, 1, 1))
+                model_results = model_arima.fit()
+                model_forecast = model_results.get_forecast(steps=3)
+                forecast_values = np.asarray(model_forecast.predicted_mean)
+                
+                model_forecasts[model] = {
+                    'historical': model_sales,
+                    'forecast': forecast_values,
+                    'years': model_years,
+                    'forecast_years': np.array([model_years[-1] + i for i in range(1, 4)])
+                }
+                
+            except Exception as e:
+                print(f"   ⚠️ Could not forecast {model}: {e}")
+    
+    print(f"\n✅ Model forecasting complete")
+    
+    return model_forecasts
+
