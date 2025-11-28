@@ -57,3 +57,13 @@ project documents/bmw_system_diagrams/main_detailed.md
 project documents/bmw_system_diagrams/render_diagrams.py
 project documents/bmw_system_diagrams/reporting_flow.md
 tools/diagram_package_generator.py
+project documents/py/mermaid_scripts/alert_state_machine.md
+project documents/py/mermaid_scripts/data_schema.md
+project documents/py/mermaid_scripts/forecast_algo.md
+project documents/py/mermaid_scripts/main_detailed.md
+project documents/py/mermaid_scripts/reporting_flow.md
+project documents/py/svg_output/alert_state_machine.svg
+project documents/py/svg_output/data_schema.svg
+project documents/py/svg_output/forecast_algo.svg
+project documents/py/svg_output/main_detailed.svg
+project documents/py/svg_output/reporting_flow.svg
