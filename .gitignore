@@ -55,3 +55,4 @@ project documents/py/svg_output/data_schema.svg
 project documents/py/svg_output/forecast_algo.svg
 project documents/py/svg_output/main_detailed.svg
 project documents/py/svg_output/reporting_flow.svg
+tools/mermaid-in-jupyter-svg+elk-or-not-elk+lr-or-td-ok-with-flowchart-v03.ipynb
