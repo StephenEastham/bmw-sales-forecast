@@ -1,5 +1,6 @@
 ```mermaid
 stateDiagram-v2
+
 %% Level 3 Abstraction: Alert Lifecycle
 [*] --> InitCheck: "Input(Metric, Threshold)"
 
@@ -30,4 +31,5 @@ state Logging {
 
 Underperformance --> Logging
 Logging --> [*]: "Alert Registered"
+ 
 ```
