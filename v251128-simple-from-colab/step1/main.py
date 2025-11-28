@@ -1,18 +1,16 @@
 """Minimal runner that ties together the `step 1` helpers.
-
-This file is intentionally tiny: it adjusts `sys.path` so the local
-folder imports work when executed as a script, runs a safe pipeline that
-cleans outputs, downloads required data (if missing), loads and preprocesses
-the CSV, and prints a short summary.
 """
 from pathlib import Path
 from datetime import datetime
 
-from . import config, data, utils
+# Local imports
+import config
+import data
+import utils
 
 
 def run_pipeline():
-    print("[step1] Starting minimal pipeline —", datetime.now().isoformat())
+    print("Starting pipeline —", datetime.now().isoformat())
     utils.clean_outputs()
     try:
         data.download_required_files()

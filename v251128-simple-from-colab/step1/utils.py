@@ -4,14 +4,12 @@ import logging
 from zipfile import ZipFile, ZIP_DEFLATED
 from typing import Iterable
 
-from .config import OUTPUT_DIR, out_path
+import config
+from config import OUTPUT_DIR, out_path
 
 
 def clean_outputs() -> None:
     """Delete all files and folders under the `OUTPUT_DIR`.
-
-    Use carefully. This function is intentionally simple; callers should
-    confirm intent before invoking in interactive sessions.
     """
     print(f"Cleaning output directory: {OUTPUT_DIR}")
     if OUTPUT_DIR.exists():
