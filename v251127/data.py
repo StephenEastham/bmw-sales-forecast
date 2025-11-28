@@ -63,6 +63,26 @@ def preprocess_data(df):
     
     df_clean.columns = df_clean.columns.str.strip()
     
+    # Warn if any column has no non-empty values (NaN or whitespace-only strings)
+    empty_columns = []
+    for col in df_clean.columns:
+        non_na = ~df_clean[col].isna()
+        if non_na.any():
+            non_empty = df_clean.loc[non_na, col].astype(str).str.strip() != ''
+            has_values = non_empty.any()
+        else:
+            has_values = False
+        if not has_values:
+            empty_columns.append(col)
+
+    if empty_columns:
+        print("\n⚠️ Warning: The following columns contain empty values:")
+        for c in empty_columns:
+            print(f"  - {c}")
+        print("Consider dropping or filling these columns before further processing.")
+    else:
+        print("\n✅ No empty columns found. All columns contain at least one non-empty value.")
+
     print(f"\n✅ Data preprocessing complete. Shape: {df_clean.shape}")
     print(f"\n📊 Cleaned columns:")
     print(df_clean.columns.tolist())
