@@ -61,3 +61,11 @@ tools/mermaid-in-jupyter-svg+elk-or-not-elk+lr-or-td-ok-with-flowchart-v03.ipynb
 V251128-simple/outputs/all_outputs.zip
 project-documents/bmw.png
 v251130-simple-from-colab-then-restructure-in-steps/generate-notebook/combined.ipynb
+v251130-simple-from-colab-then-restructure-in-steps/generate-notebook/main.py
+v251130-simple-from-colab-then-restructure-in-steps/generate-notebook/data.py
+v251130-simple-from-colab-then-restructure-in-steps/generate-notebook/config.py
+v251130-simple-from-colab-then-restructure-in-steps/generate-notebook/analysis.py
+v251130-simple-from-colab-then-restructure-in-steps/generate-notebook/aggregator.py
+v251130-simple-from-colab-then-restructure-in-steps/generate-notebook/reporting.py
+v251130-simple-from-colab-then-restructure-in-steps/generate-notebook/utils.py
+v251130-simple-from-colab-then-restructure-in-steps/generate-notebook/visualization.py

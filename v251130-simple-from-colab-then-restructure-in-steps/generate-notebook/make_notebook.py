@@ -137,6 +137,13 @@ def make_notebook(order: List[Path], output: Path):
         module_path.write_text(text, encoding='utf-8')
         print(f'Wrote module: {module_path}')
     
+    # Copy CSV data files from source directory to notebook directory
+    src_dir = order[0].parent if order else Path('.')
+    for csv_file in src_dir.glob('*.csv'):
+        dest_csv = notebook_dir / csv_file.name
+        dest_csv.write_bytes(csv_file.read_bytes())
+        print(f'Copied data file: {dest_csv}')
+    
     # Add simple initialization cell
     init_code = (
         "# Notebook initialization\n"
