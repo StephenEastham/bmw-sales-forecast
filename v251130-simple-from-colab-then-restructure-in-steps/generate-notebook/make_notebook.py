@@ -18,6 +18,34 @@ from pathlib import Path
 from typing import Dict, List, Set, Tuple
 import sys
 import re
+import shutil
+
+
+def cleanup_directories(notebook_dir: Path):
+    """Clean up the notebook directory and outputs folder before generating."""
+    # Delete all files in outputs folder
+    outputs_dir = notebook_dir / 'outputs'
+    if outputs_dir.exists():
+        for item in outputs_dir.iterdir():
+            try:
+                if item.is_file():
+                    item.unlink()
+                    print(f'Deleted: {item.name}')
+                elif item.is_dir():
+                    shutil.rmtree(item)
+                    print(f'Deleted directory: {item.name}')
+            except Exception as e:
+                print(f'Failed to delete {item}: {e}')
+    
+    # Delete all files in notebook_dir EXCEPT make_notebook.py and order.txt
+    keep_files = {'make_notebook.py', 'order.txt'}
+    for item in notebook_dir.iterdir():
+        if item.is_file() and item.name not in keep_files:
+            try:
+                item.unlink()
+                print(f'Deleted: {item.name}')
+            except Exception as e:
+                print(f'Failed to delete {item}: {e}')
 
 
 def find_py_files(src: Path) -> List[Path]:
@@ -224,6 +252,10 @@ def main():
     if not src.exists() or not src.is_dir():
         print(f'Source directory not found: {src}', file=sys.stderr)
         sys.exit(2)
+
+    # Clean up before generating
+    notebook_dir = args.output.parent
+    cleanup_directories(notebook_dir)
 
     files = find_py_files(src)
     if not files:
