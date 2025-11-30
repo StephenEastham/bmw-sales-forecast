@@ -40,6 +40,7 @@ sales_report_20251122_140519.txt
 07_all_outputs.html
 *.html
 !v251130-simple-from-colab-then-restructure-in-steps/evolution/project_evolution.html
+!v251130-simple-from-colab-then-restructure-in-steps/evolution/codebase_diagram.html
 active_alerts.csv
 PROJECT_PROPOSAL_BMW_SALES.docx
 README_MODULAR.docx

@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Codebase diagram — interactive</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    :root{--bg:#f7f8fb;--panel:#fff;--muted:#667;--accent:#0366d6}
+    html,body{height:100%;margin:0;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg)}
+    #sticky{position:fixed;left:0;right:0;top:0;height:64px;background:var(--panel);border-bottom:1px solid #e6e6e6;display:flex;align-items:center;gap:12px;padding:10px 16px;z-index:30}
+    #title{font-weight:700}
+    #controls{margin-left:auto;display:flex;gap:8px;align-items:center}
+    #controls input{padding:6px 8px;border:1px solid #ddd;border-radius:6px}
+    #controls button{padding:6px 10px;border-radius:6px;border:1px solid #ddd;background:#fafafa;cursor:pointer}
+    #container{position:absolute;top:64px;bottom:0;left:0;right:0;overflow:auto;padding:18px}
+    .mermaid{min-width:700px}
+    /* highlight style for selected node */
+    svg [data-highlight="1"] rect, svg [data-highlight="1"] path { stroke:#ff7f0e !important; stroke-width:3px !important; }
+    #loading{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div id="sticky">
+    <div id="title">Codebase diagram</div>
+  </div>
+
+  <div id="loading">Rendering diagram…</div>
+
+  <div id="container">
+    <div class="mermaid">
+flowchart LR
+    %% Orchestration and entry point
+    Main["main.py<br/>(orchestrator)"]
+
+    %% Configuration and helpers
+    Config["config.py<br/>(flags & paths)"]
+    Utils["utils.py<br/>(helpers: io, zip, utils)"]
+
+    %% Data pipeline stages
+    Data["Step2<br/>data.py<br/>(ingest & preprocess)"]
+    Analysis["Step3<br/>analysis.py<br/>(aggregation & metrics)"]
+    Viz["Step4<br/>visualization.py<br/>(plots & dashboards)"]
+    Report["Step5<br/>reporting.py<br/>(report generation)"]
+    Agg["Step6<br/>aggregator.py<br/>(package & index outputs)"]
+    Outputs["outputs/<br/>(generated artifacts)"]
+    CSV["BMW-sales-data-2010-2024.csv<br/>(source data)"]
+
+    %% high-level flows (simplified)
+    %% orchestration edges: main controls the pipeline (single point of control)
+    Main --> Data
+    Main --> Config
+    Main --> Utils
+
+    %% core pipeline sequence (data flow — styled solid)
+    Data --> Analysis
+    Analysis --> Viz
+    Viz --> Report
+    Report --> Agg
+    Agg --> Outputs
+
+    %% supporting relations (auxiliary — styled dotted)
+    CSV --> Data
+    Utils --> Outputs
+
+    %% link styling: orchestration (indexes 0-2) dashed orange, data flow (3-7) solid green, support (8-9) dotted gray
+    linkStyle 0,1,2 stroke:#ff7f0e,stroke-width:2px,stroke-dasharray:5,5
+    linkStyle 3,4,5,6,7 stroke:#2ca02c,stroke-width:2px
+    linkStyle 8,9 stroke:#8c8c8c,stroke-width:1.5px,stroke-dasharray:2,2
+
+    %% grouping for clarity
+    subgraph "Step1"
+        Main
+        Config
+        Utils
+    end
+
+    subgraph "Processing Pipeline"
+        Data
+        Analysis
+        Viz
+        Report
+        Agg
+    end
+
+    classDef files fill:#fff,stroke:#bbb,stroke-width:1px;
+    class Main,Config,Utils,Data,Analysis,Viz,Report,Agg,Outputs,CSV files;
+
+    %% small note
+    %% Note: main.py runs tests and incremental steps when flags in config enable them
+    
+    </div>
+  </div>
+
+  <script>
+    mermaid.initialize({ startOnLoad:true, theme:'default', flowchart:{ useMaxWidth:true } });
+
+    // Use a MutationObserver so we attach handlers after Mermaid injects the SVG
+    const container = document.getElementById('container');
+    const observer = new MutationObserver((mutations, obs) => {
+      const svg = container.querySelector('svg');
+      if(!svg) return;
+      obs.disconnect();
+      document.getElementById('loading').style.display = 'none';
+      attachInteractions(svg);
+    });
+    observer.observe(container, { childList:true, subtree:true });
+
+    function attachInteractions(svg){
+      // broad selector: find all text nodes inside the svg and map to their ancestor group
+      const textEls = Array.from(svg.querySelectorAll('text'));
+      const nodeGroups = [];
+      textEls.forEach(t => {
+        const txt = t.textContent && t.textContent.trim();
+        if(!txt) return;
+        // find nearest group ancestor that likely represents the node shape
+        let g = t.parentElement;
+        while(g && g.tagName !== 'g') g = g.parentElement;
+        if(!g) return;
+        // avoid adding multiple times
+        if(!nodeGroups.includes(g)) nodeGroups.push(g);
+      });
+
+      nodeGroups.forEach(g => {
+        g.style.cursor = 'pointer';
+        g.addEventListener('click', ()=> centerAndHighlight(svg, g, container));
+      });
+
+      const findBtn = document.getElementById('find');
+      const fitBtn = document.getElementById('fit');
+      const qInput = document.getElementById('q');
+
+      if(findBtn && qInput){
+        findBtn.addEventListener('click', ()=>{
+          const q = qInput.value.trim().toLowerCase();
+          if(!q) return;
+          // search text nodes again to find match
+          for(const t of textEls){
+            const label = t.textContent && t.textContent.trim().toLowerCase();
+            if(label && label.includes(q)){
+              // find ancestor group
+              let g = t.parentElement;
+              while(g && g.tagName !== 'g') g = g.parentElement;
+              if(g){ centerAndHighlight(svg, g, container); return; }
+            }
+          }
+          alert('No node found for "' + q + '"');
+        });
+      }
+
+      if(fitBtn){
+        fitBtn.addEventListener('click', ()=>{
+          // set svg width to 100% of container
+          const svgEl = container.querySelector('svg');
+          if(svgEl){ svgEl.style.width = '100%'; svgEl.removeAttribute('height'); }
+        });
+      }
+    }
+
+    function clearHighlights(svg){
+      const els = svg.querySelectorAll('[data-highlight="1"]');
+      els.forEach(e => e.removeAttribute('data-highlight'));
+    }
+
+    function centerAndHighlight(svg, group, container){
+      try{
+        clearHighlights(svg);
+        group.setAttribute('data-highlight','1');
+        // get screen bounding rect of the group
+        const r = group.getBoundingClientRect();
+        const contRect = container.getBoundingClientRect();
+        // compute scroll offsets to center the group's center
+        const targetX = (r.left + r.right) / 2;
+        const targetY = (r.top + r.bottom) / 2;
+        const scrollLeft = container.scrollLeft + (targetX - contRect.left) - (container.clientWidth / 2);
+        const scrollTop = container.scrollTop + (targetY - contRect.top) - (container.clientHeight / 2);
+        container.scrollTo({ left: scrollLeft, top: scrollTop, behavior: 'smooth' });
+      }catch(e){ console.error('center error', e); }
+    }
+  </script>
+</body>
+</html>
