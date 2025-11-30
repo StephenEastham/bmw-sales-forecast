@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Evolution - Sequence Diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        
+        /* The container for the main diagram */
+        #diagram-container {
+            padding: 20px;
+            padding-top: 80px; /* Space for the sticky header */
+            overflow-x: auto; /* Allow horizontal scrolling */
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* The sticky header container */
+        #sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px; /* Approximate height of the actor boxes */
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            z-index: 1000;
+            overflow: hidden; /* Hide the rest of the diagram */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* The cloned SVG inside the header */
+        #sticky-header svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* We will sync the 'left' property via JS */
+        }
+
+        /* Loading state */
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loading">Rendering Diagram...</div>
+
+    <!-- This div will hold the cropped SVG for the header -->
+    <div id="sticky-header"></div>
+
+    <!-- This div holds the full diagram -->
+    <div id="diagram-container">
+        <div class="mermaid">
+sequenceDiagram
+    autonumber
+    participant Main as main.py
+    participant Config as config.py
+    participant Utils as utils.py
+    participant Data as data.py
+    participant Analysis as analysis.py
+    participant Viz as visualization.py
+    participant Report as reporting.py
+    participant Agg as aggregator.py
+
+    %% STEP 1: INFRASTRUCTURE
+    rect rgb(240, 248, 255)
+    Note over Main, Utils: STEP 1: Infrastructure
+    Note over Main: Acts as entry point<br/>Tests infrastructure setup<br/>Runs test_infrastructure()<br/>Verifies paths & writes test file<br/>Ensures environment readiness
+    Note over Config: Defines project configuration<br/>Sets up path definitions<br/>Defines PROJECT_ROOT, OUTPUT_DIR<br/>Implements directory creation logic<br/>Serves as base for all file operations
+    Note over Utils: Provides utility functions<br/>Helps with file system operations<br/>Implements clean_outputs(), zip_all_outputs()<br/>Uses shutil & zipfile libraries<br/>Manages output artifacts
+    end
+
+    %% STEP 2: DATA
+    rect rgb(255, 248, 240)
+    Note over Main, Data: STEP 2: Data ingestion
+    Note over Main: Tests data module<br/>Integrates data module<br/>Runs test_data_module()<br/>Executes ETL pipeline<br/>Validates data shape (50k rows)<br/>---<br/>Removed: test_infrastructure()
+    Note over Config: Configures data settings<br/>Adds flag: ENABLE_DATA_PROCESSING<br/>Sets pandas display options (max_rows)<br/>Defines data file constants<br/>Prepares environment for ETL
+    Note over Data: Implements data module<br/>Performs ETL operations<br/>Runs download(), load(), preprocess()<br/>Creates pandas DataFrame<br/>Cleans columns & casts types
+    end
+
+    %% STEP 3: ANALYSIS
+    rect rgb(240, 255, 240)
+    Note over Main, Analysis: STEP 3: Analysis
+    Note over Main: Tests analysis module<br/>Integrates analysis module<br/>Runs test_analysis_module()<br/>Generates statistics<br/>Verifies aggregation results<br/>---<br/>Removed: test_data_module()
+    Note over Config: Configures analysis settings<br/>Adds flags: ENABLE_EXPLORATORY_ANALYSIS, ENABLE_TIME_SERIES<br/>Controls analysis flow<br/>Toggles computation depth
+    Note over Analysis: Implements analysis module<br/>Processes statistics<br/>Runs aggregate_time_series()<br/>Performs GroupBy operations (Year, Region)<br/>Calculates YoY growth & totals
+    end
+
+    %% STEP 4: VISUALIZATION
+    rect rgb(240, 240, 255)
+    Note over Main, Viz: STEP 4: Visualization
+    Note over Main: Tests visualization module<br/>Integrates visuals<br/>Runs test_visualization_module()<br/>Triggers plot creation<br/>Checks output file existence<br/>---<br/>Removed: test_analysis_module()
+    Note over Config: Configures visualization settings<br/>Adds flags: ENABLE_STATIC_PLOTS, ENABLE_DASHBOARDS<br/>Sets up plotting libraries<br/>Configures Matplotlib & Seaborn<br/>Defines styles (seaborn-darkgrid)<br/>Sets backend to Agg
+    Note over Viz: Implements visualization module<br/>Generates charts<br/>Creates static & interactive plots<br/>Uses Matplotlib/Seaborn & Plotly<br/>Saves .png and .html dashboards
+    end
+
+    %% STEP 5: REPORTING
+    rect rgb(255, 240, 255)
+    Note over Main, Report: STEP 5: Reporting
+    Note over Main: Tests reporting module<br/>Integrates reporting<br/>Runs test_reporting_module()<br/>Generates text artifacts<br/>Validates report content<br/>---<br/>Removed: test_visualization_module()
+    Note over Config: Configures reporting settings<br/>Adds reporting flags<br/>Defines ENABLE_REPORTING<br/>Activates text generation<br/>Controls summary output
+    Note over Report: Implements reporting module<br/>Generates narrative<br/>Runs generate_monthly_report()<br/>Uses string formatting & templates<br/>Produces executive summary txt
+    end
+
+    %% STEP 6: AGGREGATION
+    rect rgb(255, 255, 240)
+    Note over Main, Agg: STEP 6: Aggregation (final)
+    Note over Main: Runs full pipeline<br/>Executes end-to-end<br/>Runs test_full_pipeline()<br/>Orchestrates steps 2-6 sequentially<br/>Validates & packages final output<br/>---<br/>Removed: test_reporting_module()
+    Note over Config: Finalizes configuration<br/>Adds aggregator flags<br/>Defines ENABLE_AGGREGATOR<br/>Enables final packaging<br/>Activates complete feature set
+    Note over Agg: Implements aggregator module<br/>Consolidates outputs<br/>Runs create_aggregator_html()<br/>Generates HTML index<br/>Links all artifacts & zips
+    end
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            sequence: {
+                actorMargin: 50,
+                boxMargin: 10,
+                boxTextMargin: 5,
+                noteMargin: 10,
+                messageMargin: 35
+            }
+        });
+
+        // Wait for Mermaid to finish rendering
+        const checkRender = setInterval(() => {
+            const originalSvg = document.querySelector('#diagram-container svg');
+            if (originalSvg) {
+                clearInterval(checkRender);
+                document.getElementById('loading').style.display = 'none';
+                initStickyHeader(originalSvg);
+            }
+        }, 200);
+
+        function initStickyHeader(originalSvg) {
+            const headerContainer = document.getElementById('sticky-header');
+            
+            // Clone the SVG
+            const clonedSvg = originalSvg.cloneNode(true);
+            clonedSvg.id = 'header-svg';
+            
+            // Append to sticky header
+            headerContainer.appendChild(clonedSvg);
+
+            // Sync scrolling
+            // We need to sync the horizontal position of the cloned SVG 
+            // with the window scroll or container scroll.
+            
+            function syncScroll() {
+                const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+                clonedSvg.style.left = `-${scrollX}px`;
+            }
+
+            window.addEventListener('scroll', syncScroll);
+            window.addEventListener('resize', syncScroll);
+            
+            // Initial sync
+            syncScroll();
+        }
+    </script>
+</body>
+</html>
