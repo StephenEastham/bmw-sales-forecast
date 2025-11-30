@@ -9,8 +9,7 @@ from pathlib import Path
 
 # Import from our new modules
 from config import (
-    PROJECT_ROOT, OUTPUT_DIR, DATA_CSV_URL, DATA_CSV_FILE,
-    ENABLE_DATA_PROCESSING
+    PROJECT_ROOT, OUTPUT_DIR, DATA_CSV_URL, DATA_CSV_FILE
 )
 from utils import clean_outputs, print_section, zip_all_outputs
 

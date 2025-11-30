@@ -16,7 +16,3 @@ def out_path(name: str) -> str:
 DATA_CSV_URL = 'https://raw.githubusercontent.com/StephenEastham/bmw-sales-forecast/refs/heads/main/v251125/BMW-sales-data-2010-2024.csv'
 DATA_CSV_FILE = 'BMW-sales-data-2010-2024.csv'
 
-# --- Feature Flags (Infrastructure) ---
-# We include this here as it's referenced in the infrastructure test,
-# even though the logic isn't implemented until Step 2.
-ENABLE_DATA_PROCESSING = True
