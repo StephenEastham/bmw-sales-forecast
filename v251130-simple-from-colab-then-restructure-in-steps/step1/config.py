@@ -1,17 +1,10 @@
-"""Configuration module for BMW Sales Forecast.
+"""Configuration module - Step 1.
 
-Contains paths, constants, and feature flags.
+Contains basic paths and constants for the project infrastructure.
 """
 from pathlib import Path
-import warnings
-import matplotlib
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
 
 # --- Paths ---
-# We assume the script is run from the step folder, so we look for data in the parent or current dir.
-# For simplicity in this step-by-step guide, we'll assume the CSV is in the same folder or one level up.
 PROJECT_ROOT = Path(__file__).resolve().parent
 OUTPUT_DIR = PROJECT_ROOT / 'outputs'
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -19,25 +12,11 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 def out_path(name: str) -> str:
     return str(OUTPUT_DIR / name)
 
-# --- Plotting Configuration ---
-warnings.filterwarnings('ignore')
-matplotlib.use('Agg')
-plt.style.use('seaborn-v0_8-darkgrid')
-sns.set_palette('husl')
-
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_rows', 100)
-
 # --- Data Constants ---
 DATA_CSV_URL = 'https://raw.githubusercontent.com/StephenEastham/bmw-sales-forecast/refs/heads/main/v251125/BMW-sales-data-2010-2024.csv'
-# We look for the file in the current directory first
 DATA_CSV_FILE = 'BMW-sales-data-2010-2024.csv'
 
-# --- Feature Flags ---
+# --- Feature Flags (Infrastructure) ---
+# We include this here as it's referenced in the infrastructure test,
+# even though the logic isn't implemented until Step 2.
 ENABLE_DATA_PROCESSING = True
-ENABLE_EXPLORATORY_ANALYSIS = True
-ENABLE_TIME_SERIES = True
-ENABLE_STATIC_PLOTS = True
-ENABLE_REPORTING = True
-ENABLE_DASHBOARDS = True
-ENABLE_AGGREGATOR = True
