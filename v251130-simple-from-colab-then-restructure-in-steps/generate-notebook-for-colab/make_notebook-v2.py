@@ -54,7 +54,7 @@ def cleanup_directories(notebook_dir: Path):
     script_name = script_path.name
     alt_name_underscore = script_name.replace('-', '_')
     alt_name_dash = script_name.replace('_', '-')
-    keep_names = {script_name, alt_name_underscore, alt_name_dash, 'make_notebook.py', 'order.txt'}
+    keep_names = {script_name, alt_name_underscore, alt_name_dash, 'make_notebook-v2.py', 'order.txt'}
 
     for item in notebook_dir.iterdir():
         # Never delete files whose resolved path matches the running script or argv[0]
@@ -277,16 +277,28 @@ def make_notebook(order: List[Path], output: Path):
     # Add a final cell to run the main pipeline if main.py exists
     run_main_code = (
         "# Run the main pipeline\n"
-        "import sys\n"
+        "import sys, inspect\n"
         "if 'main' in sys.modules:\n"
         "    import main\n"
-        "    print(\"🚀 Running main.test_full_pipeline()...\")\n"
+        "    print(\"🚀 Running available entrypoint in main module...\")\n"
+        "    # Preferred entrypoints in order: test_full_pipeline, main, any test_* function\n"
         "    if hasattr(main, 'test_full_pipeline'):\n"
         "        main.test_full_pipeline()\n"
         "    elif hasattr(main, 'main'):\n"
         "        main.main()\n"
         "    else:\n"
-        "        print(\"⚠️ No 'test_full_pipeline' or 'main' function found in main module.\")\n"
+        "        called = False\n"
+        "        for name, obj in vars(main).items():\n"
+        "            if callable(obj) and name.startswith('test_'):\n"
+        "                print(f\"ℹ️ Calling {name}() from main module\")\n"
+        "                try:\n"
+        "                    obj()\n"
+        "                    called = True\n"
+        "                except Exception as e:\n"
+        "                    print(f\"❌ Exception while running {name}(): {e}\")\n"
+        "                break\n"
+        "        if not called:\n"
+        "            print(\"⚠️ No 'test_full_pipeline', 'main', or 'test_*' function found in main module.\")\n"
     )
     cells.append({
         'cell_type': 'code',
