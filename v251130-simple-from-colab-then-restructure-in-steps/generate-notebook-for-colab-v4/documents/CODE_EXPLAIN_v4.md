@@ -33,5 +33,3 @@ Contact points in the source
 - `find_py_files()` / `parse_imports()` / `build_dependency_graph()` / `topo_sort()` — ordering logic.
 - `strip_module_docstring()` — optional docstring removal for nicer markdown cells.
 - `make_notebook()` — core assembly and embedding logic.
-
-If you'd like, I can replace the original `README.md` and `CODE_EXPLAIN.md` with these `_v4` versions, or adjust them to match your preferred tone and level of detail.
