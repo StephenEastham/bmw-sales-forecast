@@ -1,0 +1,8 @@
+import IPython
+from pathlib import Path
+
+# Construct the full path to the generated HTML file
+html_file_path = Path('outputs') / '06_model_heatmap_interactive.html'
+
+# Display the HTML file using its full path
+IPython.display.HTML(filename=str(html_file_path))
