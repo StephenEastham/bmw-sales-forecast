@@ -125,8 +125,8 @@ def strip_module_docstring(src: str) -> str:
         if tree.body and isinstance(tree.body[0], ast.Expr):
             expr = tree.body[0]
             val = expr.value
-            # ast.Constant (py3.8+) or ast.Str
-            if isinstance(val, (ast.Constant, ast.Str)) and isinstance(getattr(val, 's', getattr(val, 'value', None)), str):
+            # ast.Constant (py3.8+)
+            if isinstance(val, ast.Constant) and isinstance(val.value, str):
                 # determine line range to remove
                 start = getattr(expr, 'lineno', None)
                 end = getattr(expr, 'end_lineno', None)
