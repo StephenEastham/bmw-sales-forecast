@@ -54,7 +54,7 @@ def cleanup_directories(notebook_dir: Path):
     script_name = script_path.name
     alt_name_underscore = script_name.replace('-', '_')
     alt_name_dash = script_name.replace('_', '-')
-    keep_names = {script_name, alt_name_underscore, alt_name_dash, 'make_notebook-v2.py', 'order.txt'}
+    keep_names = {script_name, alt_name_underscore, alt_name_dash, 'make_notebook-v2.py','make_notebook-v3.py','make_notebook-v4.py','order.txt'}
 
     for item in notebook_dir.iterdir():
         # Never delete files whose resolved path matches the running script or argv[0]
