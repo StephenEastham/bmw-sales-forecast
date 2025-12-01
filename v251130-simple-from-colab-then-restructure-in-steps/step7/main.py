@@ -1,25 +1,25 @@
-"""Main execution script - Step 6.
+"""Main execution script - Step 7.
 
-This step adds the Aggregator Module. We verify that we can collect all
-generated outputs into a single HTML index page and zip archive.
-This completes the modularization process.
+This step adds the Forecasting Module. We verify that we can generate
+forecasts and include them in the final output.
 """
 import numpy as np
 from datetime import datetime
 from config import (
     DATA_CSV_FILE, ENABLE_DATA_PROCESSING, ENABLE_TIME_SERIES,
     ENABLE_STATIC_PLOTS, ENABLE_DASHBOARDS, ENABLE_REPORTING,
-    ENABLE_AGGREGATOR, out_path
+    ENABLE_FORECASTING, ENABLE_AGGREGATOR, out_path
 )
 from utils import clean_outputs, print_section, zip_all_outputs
 import data
 import analysis
 import visualization
 import reporting
+import forecasting
 import aggregator
 
 def test_full_pipeline():
-    print_section("STEP 6: FULL PIPELINE & AGGREGATOR TEST")
+    print_section("STEP 7: FULL PIPELINE & FORECASTING TEST")
     
     clean_outputs()
     
@@ -54,13 +54,17 @@ def test_full_pipeline():
             if ts_years is None: ts_years = np.array([2020, 2021])
             reporting.generate_final_summary(df_clean, average_sales, ts_years, ts_data)
             
-        # 4. Aggregation
+        # 5. Forecasting
+        if ENABLE_FORECASTING:
+            forecasting.simple_forecast(df_yearly)
+
+        # 6. Aggregation
         if ENABLE_AGGREGATOR:
             print("\nTesting aggregator module...")
             aggregator.create_aggregator_html()
             zip_all_outputs()
             
-        print(f"\n✅ Step 6 Complete: Full pipeline executed successfully.")
+        print(f"\n✅ Step 7 Complete: Full pipeline executed successfully.")
 
 if __name__ == "__main__":
     test_full_pipeline()

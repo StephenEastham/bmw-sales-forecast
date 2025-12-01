@@ -60,10 +60,10 @@ def generate_final_summary(df_clean, average_sales, ts_years, ts_data):
      summary = ('='*80) + '\n' + 'BMW SALES ANALYTICS - ANALYSIS COMPLETE' + '\n' + ('='*80) + '\n\n'
      summary += f'ANALYSIS COMPLETED:\n\n1. Data Overview:\n    • Total records analyzed: {total_records:,}\n    • Time period: {year_min} - {year_max}\n    • Models tracked: {df_clean["Model"].nunique() if df_clean is not None else 0}\n    • Regions tracked: {df_clean["Region"].nunique() if df_clean is not None else 0}\n\n'
      summary += f'2. Historical Performance:\n    • Average annual sales: {avg_sales:,.0f}\n    • Peak sales year: {peak_year} ({peak_value:,})\n    • Lowest sales year: {low_year} ({low_value:,})\n    • Trend: {trend}\n\n'
-     summary += '3. Visualizations Generated:\n    [OK] 01_sales_overview.png - Overview charts (4-panel analysis)\n    [OK] 02_model_region_heatmap.png - Performance matrix\n    [OK] 05_interactive_dashboard.html - Main interactive dashboard\n    [OK] 06_model_heatmap_interactive.html - Interactive heatmap\n    [OK] 07_all_outputs.html - Aggregated outputs page\n\n'
+     summary += '3. Visualizations Generated:\n    [OK] 01_sales_overview.png - Overview charts (4-panel analysis)\n    [OK] 02_model_region_heatmap.png - Performance matrix\n    [OK] 05_interactive_dashboard.html - Main interactive dashboard\n    [OK] 06_model_heatmap_interactive.html - Interactive heatmap\n    [OK] 07_all_outputs.html - Aggregated outputs page\n    [OK] 08_sales_forecast.png - Sales Forecast Plot\n\n'
      summary += '4. Data Files Generated:\n    [OK] sales_report_[timestamp].txt - Detailed report\n    [OK] ANALYSIS_SUMMARY.txt - This summary\n\n'
      summary += f'5. Top Insights:\n    • Top Model: {top_model}\n    • Top Region: {top_region}\n\n'
-     summary += ('='*80) + '\nPROJECT STATUS: ANALYSIS COMPLETE (Forecasting & Alerts Removed)\n' + ('='*80) + '\n'
+     summary += ('='*80) + '\nPROJECT STATUS: ANALYSIS COMPLETE\n' + ('='*80) + '\n'
      print(summary)
      with open(out_path('ANALYSIS_SUMMARY.txt'), 'w', encoding='utf-8') as f:
           f.write(summary)
