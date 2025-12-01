@@ -19,6 +19,7 @@ from typing import Dict, List, Set, Tuple
 import sys
 import re
 import shutil
+from datetime import datetime
 
 
 def cleanup_directories(notebook_dir: Path):
@@ -249,12 +250,18 @@ def main():
     args = parser.parse_args()
 
     src = args.src
+    # If the user left the default output filename, generate a timestamped name
+    # based on the source folder (e.g. 'step1-combined-YYYYMMDD-HHMMSS.ipynb')
+    output: Path = args.output
+    if output.name == 'combined.ipynb':
+        ts = datetime.now().strftime('%Y%m%d-%H%M%S')
+        output = output.with_name(f"{src.name}-combined-{ts}.ipynb")
     if not src.exists() or not src.is_dir():
         print(f'Source directory not found: {src}', file=sys.stderr)
         sys.exit(2)
 
     # Clean up before generating
-    notebook_dir = args.output.parent
+    notebook_dir = output.parent
     cleanup_directories(notebook_dir)
 
     files = find_py_files(src)
@@ -291,7 +298,7 @@ def main():
             order = sorted(files)
             print('Heuristic ordering failed; using alphabetical order')
 
-    make_notebook(order, args.output)
+    make_notebook(order, output)
 
 
 if __name__ == '__main__':
