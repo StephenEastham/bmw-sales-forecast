@@ -1,23 +1,19 @@
 # prompts to ai
 
-do not misremember previous conversations. instead, exactly and only for the code in folder step 1, create an ascii tree that will help a learner programmer to understand this codeand how it works
+Do not rely on or repeat previous conversations. Instead, work only with the code in the step1 folder and produce an ASCII tree that helps a learner understand that code and how it works.
 
-extend and expand the ascii tree diagram. in the same, single diagram, go into 3 times more depth and etail
+Extend and expand the ASCII-tree diagram. In the same, single diagram, provide about three times more depth and detail than the current diagram.
 
-
-for :
-
+For the following items:
 ├─ PROJECT_ROOT → Path(file).resolve().parent
-│ ├─ OUTPUT_DIR → PROJECT_ROOT / 'outputs' (created at import)
-│ ├─ out_path(name) → returns str(OUTPUT_DIR / name)
-│ ├─ DATA_CSV_URL → remote CSV URL (string)
-│ └─ DATA_CSV_FILE → local CSV filename string
+├─ OUTPUT_DIR → PROJECT_ROOT / 'outputs' (created at import)
+├─ out_path(name) → returns str(OUTPUT_DIR / name)
+├─ DATA_CSV_URL → remote CSV URL (string)
+└─ DATA_CSV_FILE → local CSV filename string
 
-for each line, add in brackets exactly what happens at this stage of processing
-then rewrite the ascii tree
+add, in brackets, an explicit note describing exactly what happens at each stage of processing. Then rewrite the ASCII tree to include those bracketed notes.
 
-
-now, do the same for the whole ascii tree and add the tree to an md
+Finally, do the same (expand with bracketed explanations) for the entire ASCII tree of the step1 folder and save the result as a Markdown file.
 
 # ai said
 
