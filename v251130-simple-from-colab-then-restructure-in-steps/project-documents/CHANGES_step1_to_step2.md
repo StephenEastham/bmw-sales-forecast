@@ -1,8 +1,12 @@
-# Changes: step1 → step2 — ASCII Tree of Code Deltas
+# Changes: step1 → step2
 
 Generated: 2025-12-16
 
-This document shows only what changed between `step1` and `step2`. It is a compact ASCII tree that highlights added or modified files, constants, and functions, with one-line bracketed notes describing the runtime effect of each change.
+This document shows only what changed between `step1` and `step2`:
+(1) configuring pandas display,
+(2) performing HTTP downloads of CSV data,
+(3) loading and exploring the dataset, and
+(4) running in-memory preprocessing.
 
 ```
 step[1->2]/
@@ -35,7 +39,3 @@ step[1->2]/
 └─ utils.py  [unchanged]
    [Note: utility functions (`clean_outputs`, `print_section`, `zip_all_outputs`) remain the same across step1 and step2; they provide the same IO behaviors used by both steps.]
 ```
-
-Notes
-- This file intentionally omits unchanged file internals and focuses on deltas that affect runtime behavior (imports, feature flags, new network/disk operations, and new functions).
-- Use this diff-tree to quickly understand what new responsibilities Step 2 adds: (1) configuring pandas display, (2) performing HTTP downloads of CSV data, (3) loading and exploring the dataset, and (4) running in-memory preprocessing.
