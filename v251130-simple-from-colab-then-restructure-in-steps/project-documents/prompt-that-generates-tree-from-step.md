@@ -9,7 +9,7 @@ Requirements
 
 2. Primary deliverable:
    - A single, unified ASCII tree diagram (one diagram only) describing the specified step folder.
-   - Save the result as a Markdown file named `DETAILED_TREE.md` inside that same step folder (e.g., `step1/DETAILED_TREE.md` or `step2/DETAILED_TREE.md`).
+   - Save the result as a Markdown file named `detailed-tree-step{step-number}.md` inside that same step folder (e.g., `step1/detailed-tree-step{step-number}.md` or `step2/detailed-tree-step{step-number}.md`).
 
 3. Depth and detail:
    - Expand the existing diagram to be about three times more detailed than a basic file listing.
@@ -37,6 +37,7 @@ Requirements
    - Add a short header to the generated `detailed-tree-step{step-number}.md` that states the file was generated from the specified step folder's code and the generation date.
    - Include the single expanded ASCII tree with bracketed explanations (no additional separate trees).
    - Conclude with a succinct summary (3–5 bullets) listing the most important side-effects a learner should be aware of when running the main script in the step folder (for example: outputs/ created, files deleted by cleanup helper, test files written, archive/zip created, and note whether any downloads occur in that step).
+   - Insert the succinct summary before the tree.
 
 8. Formatting guidance (follow the past example in context):
    - Use consistent branch characters and indentation throughout.
