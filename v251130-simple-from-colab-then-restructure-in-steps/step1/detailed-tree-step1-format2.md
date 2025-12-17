@@ -4,10 +4,10 @@ This file expands on the previous ASCII tree by reformatting it as nested Markdo
 
 ## Summary — essential side-effects when running `step1/main.py`
 
-- Importing `config.py` happens before any helper runs; it resolves `PROJECT_ROOT` and immediately creates `outputs/` with `mkdir(parents=True, exist_ok=True)`, so the directory exists for downstream helpers.
-- `clean_outputs()` is invoked early in the infrastructure test and deletes all files/directories under `outputs/`, ensuring each run starts with an empty artifact folder.
-- The test writes `test_infrastructure.txt` into `outputs/` to prove write access, then `zip_all_outputs()` can archive any matching artifacts created in that folder.
-- Step 1 exercises only the infrastructure helpers—no network downloads or CSV parsing occur here.
+- Step 1 begins by importing `config.py`. That import resolves `PROJECT_ROOT`, derives `OUTPUT_DIR`, and immediately calls `OUTPUT_DIR.mkdir(parents=True, exist_ok=True)` so the folder exists before any helpers run.
+- `clean_outputs()` runs at the start of `test_infrastructure()` and removes every file and directory from `outputs/` to reset the workspace.
+- After cleaning, the test writes `test_infrastructure.txt` inside `outputs/` to prove write access. It then calls `zip_all_outputs()` to package any artifacts that appear in that folder.
+- This step never downloads datasets or parses CSVs; it only exercises infrastructure helpers locally.
 
 - `step1/` — Files and runtimes
   - `BMW-sales-data-2010-2024.csv` — Raw dataset placeholder for later steps; Step 1 does not load it, so no IO occurs during this test.
