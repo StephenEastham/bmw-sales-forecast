@@ -1,0 +1,17 @@
+{
+  "multiCommand.commands": [
+    {
+      "command": "extension.multiCommand.acceptCopilotChatAndCopy",
+      "sequence": [
+        "github.copilot.chat.acceptAnswer",
+        "github.copilot.acceptSuggestion",
+        "github.copilot.chat.accept",
+        "editor.action.inlineSuggest.commit",
+        "editor.action.clipboardCopyAction"
+      ]
+    }
+  ]
+}
+{
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true
+}

@@ -1,0 +1,7 @@
+[
+  {
+    "key": "ctrl+alt+c",
+    "command": "extension.multiCommand.acceptCopilotChatAndCopy",
+    "when": "editorTextFocus"
+  }
+]
