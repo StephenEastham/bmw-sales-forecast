@@ -1,4 +1,4 @@
-Purpose 
+Purpose
 When asked to write git commit messages for this repo, follow these exact rules.
 
 Get data
