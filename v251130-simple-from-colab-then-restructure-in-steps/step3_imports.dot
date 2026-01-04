@@ -1,0 +1,38 @@
+digraph imports {
+  rankdir=LR;
+  node [fontname="DejaVu Sans"];
+  n_analysis_py [label="analysis.py", shape=box, style=filled, fillcolor=lightgrey];
+  n_config_py [label="config.py", shape=box, style=filled, fillcolor=lightgrey];
+  n_data_py [label="data.py", shape=box, style=filled, fillcolor=lightgrey];
+  n_main_py [label="main.py", shape=box, style=filled, fillcolor=lightgrey];
+  n_utils_py [label="utils.py", shape=box, style=filled, fillcolor=lightgrey];
+  n_analysis [label="analysis", shape=ellipse, style=filled, fillcolor=white];
+  n_config [label="config", shape=ellipse, style=filled, fillcolor=white];
+  n_data [label="data", shape=ellipse, style=filled, fillcolor=white];
+  n_numpy [label="numpy", shape=ellipse, style=filled, fillcolor=white];
+  n_os [label="os", shape=ellipse, style=filled, fillcolor=white];
+  n_pandas [label="pandas", shape=ellipse, style=filled, fillcolor=white];
+  n_pathlib [label="pathlib", shape=ellipse, style=filled, fillcolor=white];
+  n_requests [label="requests", shape=ellipse, style=filled, fillcolor=white];
+  n_shutil [label="shutil", shape=ellipse, style=filled, fillcolor=white];
+  n_utils [label="utils", shape=ellipse, style=filled, fillcolor=white];
+  n_zipfile [label="zipfile", shape=ellipse, style=filled, fillcolor=white];
+  n_analysis_py -> n_numpy;
+  n_analysis_py -> n_pandas;
+  n_analysis_py -> n_utils;
+  n_config_py -> n_pathlib;
+  n_config_py -> n_pandas;
+  n_data_py -> n_os;
+  n_data_py -> n_requests;
+  n_data_py -> n_pandas;
+  n_data_py -> n_utils;
+  n_data_py -> n_config;
+  n_main_py -> n_config;
+  n_main_py -> n_utils;
+  n_main_py -> n_data;
+  n_main_py -> n_analysis;
+  n_utils_py -> n_shutil;
+  n_utils_py -> n_pathlib;
+  n_utils_py -> n_zipfile;
+  n_utils_py -> n_config;
+}
