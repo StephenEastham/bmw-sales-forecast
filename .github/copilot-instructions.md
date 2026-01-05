@@ -3,7 +3,7 @@ When asked to write git commit messages for this repo, follow these exact rules.
 
 Get data
 
-run this powershell:
+run this powershell :
 
 powershell -Command "& { Remove-Item diff.txt -ErrorAction SilentlyContinue; '=== git status ===' | Out-File diff.txt -Encoding utf8; git status --porcelain -b | Out-File diff.txt -Append -Encoding utf8; '' | Out-File diff.txt -Append -Encoding utf8; '=== staged diff ===' | Out-File diff.txt -Append -Encoding utf8; git diff --staged | Out-File diff.txt -Append -Encoding utf8; '' | Out-File diff.txt -Append -Encoding utf8; '=== unstaged diff ===' | Out-File diff.txt -Append -Encoding utf8; git diff | Out-File diff.txt -Append -Encoding utf8; '' | Out-File diff.txt -Append -Encoding utf8; '=== untracked files ===' | Out-File diff.txt -Append -Encoding utf8; git ls-files --others --exclude-standard | Out-File diff.txt -Append -Encoding utf8 }"
 
