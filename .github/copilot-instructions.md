@@ -28,5 +28,5 @@ Rules (improved)
 Examples
 1) Adds a data-loader for ...
 2) Fixes copilot-instructions: clarifies commit-msg rules
-2) Fixes code-fence spacing: Step 2 tree
-3) Addd commit message guidelines and template
+3) Fixes code-fence spacing: Step 2 tree
+4) Adds commit message guidelines and template
